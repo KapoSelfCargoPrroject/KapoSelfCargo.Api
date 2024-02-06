@@ -75,10 +75,16 @@ namespace KapoSelfCargo.Customer.Api.BusinessUnit
 		{
 			try
 			{
+				var  userFirebaseId = _userUtility.GetFirebaseUserId();
+				if (userFirebaseId == null)
+				{
+					return new Response(ResponseCode.BadRequest, "Invalid user. Firebase ID is missing.");
+				}
 				if (shipment == null)
 				{
 					return new Response(ResponseCode.BadRequest, "Invalid shipment. Shipment object is null.");
 				}
+				shipment.FirebaseId = userFirebaseId;
 				var saveChangesValue = await _shipmentDataAccess.AddAsync(shipment);
 				if (saveChangesValue > 0)
 				{
