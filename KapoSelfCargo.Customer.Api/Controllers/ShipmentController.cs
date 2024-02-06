@@ -19,14 +19,14 @@ namespace KapoSelfCargo.Customer.Api.Controllers
 			_shipmentBusinessUnit = shipmentBusinessUnit;
 		}
 		[HttpGet]
-		[Route(" GetShipment")]
+		[Route("GetShipment")]
 		public async Task<Response<IList<ShipmentListDto>>> GetShipmentByUserFirebaseId()
 		{
 			return await  _shipmentBusinessUnit.GetShipmentByUserFirebaseId();
 		}
 		[HttpGet]
 		[Route("SearchShipment")]
-		public async Task<Response<IList<ShipmentListDto>>> SearchShipmentByUserFirebaseId([FromBody] string trackingNumber)
+		public async Task<Response<IList<ShipmentListDto>>> SearchShipmentByUserFirebaseId(string trackingNumber)
 		{
 			return await _shipmentBusinessUnit.SearchShipmentByUserFirebaseId(trackingNumber);
 		}
