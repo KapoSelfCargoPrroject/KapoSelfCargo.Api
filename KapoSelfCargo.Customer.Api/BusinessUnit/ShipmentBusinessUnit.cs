@@ -61,7 +61,7 @@ namespace KapoSelfCargo.Customer.Api.BusinessUnit
 				var shipmentEntity = await _shipmentDataAccess.SearchShipmentByUserFirebaseId(userFirebaseId, trackingNumber);
 				if (shipmentEntity.Any())
 				{
-					return new Response<IList<ShipmentListDto>>(ResponseCode.Success, "Shipments retrieved successfully.");
+					return new Response<IList<ShipmentListDto>>(ResponseCode.Success, "Shipments retrieved successfully.", shipmentEntity);
 				}
 				return new Response<IList<ShipmentListDto>>(ResponseCode.NotFound, "No shipments found for the user with the specified tracking number.");
 			}
