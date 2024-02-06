@@ -61,7 +61,7 @@ namespace KapoSelfCargo.Customer.Api.BusinessUnit
 				var shipmentEntity = await _shipmentDataAccess.SearchShipmentByUserFirebaseId(userFirebaseId, trackingNumber);
 				if (shipmentEntity.Any())
 				{
-					return new Response<IList<ShipmentListDto>>(ResponseCode.Success, "Shipments retrieved successfully.");
+					return new Response<IList<ShipmentListDto>>(ResponseCode.Success, "Shipments retrieved successfully.", shipmentEntity);
 				}
 				return new Response<IList<ShipmentListDto>>(ResponseCode.NotFound, "No shipments found for the user with the specified tracking number.");
 			}
@@ -75,10 +75,16 @@ namespace KapoSelfCargo.Customer.Api.BusinessUnit
 		{
 			try
 			{
+				var  userFirebaseId = _userUtility.GetFirebaseUserId();
+				if (userFirebaseId == null)
+				{
+					return new Response(ResponseCode.BadRequest, "Invalid user. Firebase ID is missing.");
+				}
 				if (shipment == null)
 				{
 					return new Response(ResponseCode.BadRequest, "Invalid shipment. Shipment object is null.");
 				}
+				shipment.FirebaseId = userFirebaseId;
 				var saveChangesValue = await _shipmentDataAccess.AddAsync(shipment);
 				if (saveChangesValue > 0)
 				{
